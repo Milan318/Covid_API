@@ -4,16 +4,3 @@
     box-sizing: border-box;
 }
 
-.card .information{
-    height: 300px;
-    width: 400px;
-   
-}
-
-.card{
-    background: white;
-}
-
-.container-fluid{
-    background: #000;
-}
