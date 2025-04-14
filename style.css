@@ -1,6 +1,56 @@
-*{
-    margin: 0px;
-    padding: 0px;
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
+body {
+    background: url('https://images.unsplash.com/photo-1584036561584-b03c19da874c') no-repeat center center/cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    transition: background-color 0.5s ease;
+}
+
+#mainContainer {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+}
+
+h1 {
+    color: #b47b6e;
+    transition: color 0.3s ease;
+}
+
+.form-select {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-select:focus {
+    border-color: #d1a89d;
+    box-shadow: 0 0 0 0.2rem rgba(210, 160, 140, 0.25);
+}
+
+#stats.card {
+    background-color: #fffaf7;
+    border: 1px solid #f5d9cc;
+    border-radius: 15px;
+    transition: all 0.4s ease;
+}
+
+#stats.card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+#stats p {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+#countryName {
+    color: #b25f4e;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    transition: color 0.3s ease;
+}

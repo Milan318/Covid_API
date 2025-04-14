@@ -1,28 +1,45 @@
-async function getCovidData() {
-    const country = document.getElementById('countryInput').value;
-    const resultDiv = document.getElementById('result');
+const countrySelect = document.getElementById('countrySelect');
+const statsCard = document.getElementById('stats');
+const countryName = document.getElementById('countryName');
+const confirmed = document.getElementById('confirmed');
+const deaths = document.getElementById('deaths');
+const recovered = document.getElementById('recovered');
+const lastUpdated = document.getElementById('lastUpdated');
 
-    if (!country) {
-        resultDiv.innerHTML = `<p>Please enter a country name!</p>`;
-        return;
-    }
+fetch('https://covid-api.com/api/regions')
+  .then(res => res.json())
+  .then(data => {
+    countrySelect.innerHTML = '<option selected disabled>Select a country</option>';
+    data.data.forEach(region => {
+      if (region.iso && region.name) {
+        const option = document.createElement('option');
+        option.value = region.iso;
+        option.textContent = region.name;
+        countrySelect.appendChild(option);
+      }
+    });
+  });
 
-    try {
-        const response = await fetch(`https://disease.sh/v3/covid-19/countries/${country}`);
-        if (!response.ok) {
-            throw new Error('Country not found');
-        }
-
-        const data = await response.json();
-
-        resultDiv.innerHTML = `
-            <h2>${data.country}</h2>
-            <p><strong>Cases:</strong> ${data.cases.toLocaleString()}</p>
-            <p><strong>Deaths:</strong> ${data.deaths.toLocaleString()}</p>
-            <p><strong>Recovered:</strong> ${data.recovered.toLocaleString()}</p>
-            <img src="${data.countryInfo.flag}" alt="Flag of ${data.country}" width="100">
-        `;
-    } catch (error) {
-        resultDiv.innerHTML = `<p>${error.message}</p>`;
-    }
-}
+countrySelect.addEventListener('change', () => {
+  const iso = countrySelect.value;
+  fetch(`https://covid-api.com/api/reports?iso=${iso}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.data.length > 0) {
+        const report = data.data[0];
+        countryName.textContent = report.region.name;
+        confirmed.textContent = report.confirmed.toLocaleString();
+        deaths.textContent = report.deaths.toLocaleString();
+        recovered.textContent = report.recovered ? report.recovered.toLocaleString() : 'N/A';
+        lastUpdated.textContent = report.date;
+        statsCard.classList.remove('d-none');
+      } else {
+        statsCard.classList.add('d-none');
+        alert('No data available for this country.');
+      }
+    })
+    .catch((error)=>{
+      console.log(error);
+      
+    })
+});
